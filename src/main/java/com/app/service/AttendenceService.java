@@ -4,8 +4,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,9 +120,12 @@ public class AttendenceService {
 		  List<Attendence> at = u.getAttendence();
 		  System.out.println("sssss-----"+at.size());
 		  at.forEach(x->System.out.println(x));
+	        List<Attendence> sortedList = at.stream()
+	                .sorted(Comparator.comparing(Attendence::getDate))
+	                .collect(Collectors.toList());
 //		  List<AttendenceDto> list = new ArrayList<>();
 //		  list = Arrays.asList(mapper.map(at, AttendenceDto[].class));
-		  return at;
+		  return sortedList;
 	}
 	public Attendence getLastRecordByUserId(int  id) {
         return attendenceDao.findTopByUserIdOrderByidDesc(id);
