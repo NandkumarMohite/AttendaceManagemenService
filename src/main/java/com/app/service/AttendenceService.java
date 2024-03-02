@@ -119,13 +119,13 @@ public class AttendenceService {
 //		  return list;
 		  List<Attendence> at = u.getAttendence();
 		  System.out.println("sssss-----"+at.size());
-		  at.forEach(x->System.out.println(x));
-	        List<Attendence> sortedList = at.stream()
-	                .sorted(Comparator.comparing(Attendence::getDate))
-	                .collect(Collectors.toList());
 //		  List<AttendenceDto> list = new ArrayList<>();
 //		  list = Arrays.asList(mapper.map(at, AttendenceDto[].class));
-		  return sortedList;
+			at.forEach(x->System.out.println(x));
+				List<Attendence> sortedList = at.stream()
+				.sorted(Comparator.comparing(Attendence::getDate))
+				.collect(Collectors.toList());
+		  return at;
 	}
 	public Attendence getLastRecordByUserId(int  id) {
         return attendenceDao.findTopByUserIdOrderByidDesc(id);
