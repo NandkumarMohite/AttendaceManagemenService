@@ -112,19 +112,13 @@ public class AttendenceService {
 	
 	public List<Attendence> findAllAtendenceById(int id){
 		  User u = userDao.findById(id);
-		  System.out.println("uuuuu----"+u); 
+		  
 		  List<Attendence> at = u.getAttendence();
-		  System.out.println("sssss-----"+at.size());
-		  at.forEach(x->System.out.println(x));
+		  
 		  List<Attendence> sortedList = at.stream()
 		  .sorted(Comparator.comparing(Attendence::getDate))
 		  .collect(Collectors.toList());
-	return sortedList;
-//		  List<Attendence> at = attendenceDao.findByUser(u);
-//		  List<AttendenceDto> list = new ArrayList<>();
-//		  list = Arrays.asList(mapper.map(at, AttendenceDto[].class));
-//		  return list;
-		 
+	return sortedList; 
 
 	}
 	public Attendence getLastRecordByUserId(int  id) {
