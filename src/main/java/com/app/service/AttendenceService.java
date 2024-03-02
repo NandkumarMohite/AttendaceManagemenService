@@ -125,7 +125,7 @@ public class AttendenceService {
 				List<Attendence> sortedList = at.stream()
 				.sorted(Comparator.comparing(Attendence::getDate))
 				.collect(Collectors.toList());
-		  return at;
+		  return sortedList;
 	}
 	public Attendence getLastRecordByUserId(int  id) {
         return attendenceDao.findTopByUserIdOrderByidDesc(id);
