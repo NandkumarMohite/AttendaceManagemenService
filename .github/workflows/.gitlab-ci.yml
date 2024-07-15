@@ -1,0 +1,34 @@
+# .gitlab-ci.yml
+
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+
+before_script:
+  - chmod +x deploy_script.sh  # Ensure deploy script is executable
+
+build_job:
+  stage: build
+  script:
+    - mvn clean install
+
+test_job:
+  stage: test
+  script:
+    - mvn test
+
+deploy_job:
+  stage: deploy
+  script:
+    - echo "Deploying to EC2 instance"
+    - ssh user@ec2-instance-ip 'bash -s' < deploy_script.sh
+  when: manual
+  only:
+    - main  # Branch to trigger deployment on, adjust as needed
+  dependencies:
+    - build_job
+    - test_job
