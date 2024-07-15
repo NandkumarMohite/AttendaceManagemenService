@@ -7,9 +7,10 @@ stages:
 
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+  SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY  # Define this as a GitLab CI/CD variable
 
 before_script:
-  - chmod +x deploy_script.sh  # Ensure deploy script is executable
+  - chmod +x deploy_script.sh
 
 build_job:
   stage: build
@@ -21,14 +22,14 @@ test_job:
   script:
     - mvn test
 
-deploy_job:
+deploy_to_qa_job:
   stage: deploy
   script:
-    - echo "Deploying to EC2 instance"
-    - ssh user@ec2-instance-ip 'bash -s' < deploy_script.sh
+    - echo "Deploying to QA environment"
+    - ssh -i "$SSH_PRIVATE_KEY" user@ec2-instance-ip 'bash -s' < deploy_script.sh
   when: manual
   only:
-    - main  # Branch to trigger deployment on, adjust as needed
+    - main  # Trigger deployment only on main branch after successful build and test
   dependencies:
     - build_job
     - test_job
