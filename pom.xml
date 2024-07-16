@@ -73,6 +73,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>attendence-application-jar</finalName>
 	</build>
 
 </project>
