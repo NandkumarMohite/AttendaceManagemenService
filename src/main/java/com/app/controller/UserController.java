@@ -25,6 +25,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin("http://3.91.203.60:8080")
 // @CrossOrigin("http://localhost:3000")
 public class UserController {
 	@Autowired
