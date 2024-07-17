@@ -32,7 +32,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/attendence")
-@CrossOrigin("http://localhost:3000")
+// @CrossOrigin("http://localhost:3000")
 public class AttendenceController {
 
 	@Autowired
