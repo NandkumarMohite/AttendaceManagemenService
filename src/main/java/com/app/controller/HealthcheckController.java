@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin("http://3.91.203.60:8080")
+// @CrossOrigin("https://3.91.203.60:8080")
 public class HealthcheckController {
     
     @GetMapping()
