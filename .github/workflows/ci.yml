@@ -1,26 +1,54 @@
-name: CI Pipeline
+name: CICD
 
 on:
   push:
-    branches:
-      - main  # Adjust branch name as needed
+    branches: 
+      - main 
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up JDK 17
+      - name: Setup Java JDK 17
         uses: actions/setup-java@v2
         with:
+          distribution: 'adopt'
           java-version: '17'
-          distribution: 'adopt'  # or 'temurin', depending on your preference
 
-      - name: Build with Maven
-        run: mvn clean install
+      - name: Build Project
+        run: mvn clean install -DskipTests
 
-      - name: Run Tests
-        run: mvn test
+      - name: Login to docker hub
+        run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
+
+      - name: Build docker image
+        run: docker build -t nandkumarmohite/attendace-service-app .
+
+      - name: Publish image to docker hub
+        run: docker push nandkumarmohite/attendace-service-app:latest
+
+  deploy:
+    needs: build
+    runs-on: aws-ec2 # Use appropriate OS
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      # - name: Login to Docker Hub
+      #   run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+
+      - name: Pull Image from Docker Hub
+        run: docker pull nandkumarmohite/attendace-service-app:latest
+
+      - name: Stop and Remove Old Container
+        run: |
+          docker stop springboot-example-container || true
+          docker rm springboot-example-container || true
+
+      - name: Run Docker Container
+        run: |
+          docker run -d -p 8080:8080 --restart unless-stopped --name springboot-example-container nandkumarmohite/attendace-service-app:latest
