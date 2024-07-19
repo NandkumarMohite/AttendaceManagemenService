@@ -60,9 +60,13 @@ jobs:
     needs: deploy-to-qa
     runs-on: aws-ec2 # Use appropriate OS
     environment: staging
-    if: github.event_name == 'workflow_dispatch'
+    # if: github.event_name == 'workflow_dispatch'
 
     steps:
+      - name: Await Manual Approval
+        uses: chrnorm/deployment-action@v1.0.2
+        with:
+          env: staging
       - name: Checkout Repository
         uses: actions/checkout@v2
 
@@ -86,9 +90,13 @@ jobs:
     needs: deploy-to-staging
     runs-on: aws-ec2 # Use appropriate OS
     environment: production
-    if: github.event_name == 'workflow_dispatch'
+    # if: github.event_name == 'workflow_dispatch'
 
     steps:
+      - name: Await Manual Approval
+        uses: chrnorm/deployment-action@v1.0.2
+        with:
+          env: production    
       - name: Checkout Repository
         uses: actions/checkout@v2
 
