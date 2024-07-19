@@ -64,9 +64,10 @@ jobs:
 
     steps:
       - name: Await Manual Approval
-        uses: chrnorm/deployment-action@v1.0.2
+        uses: actions/manual-approval@v1
         with:
-          env: staging
+          approval_type: "staging"
+
       - name: Checkout Repository
         uses: actions/checkout@v2
 
@@ -94,9 +95,10 @@ jobs:
 
     steps:
       - name: Await Manual Approval
-        uses: chrnorm/deployment-action@v1.0.2
+        uses: actions/manual-approval@v1
         with:
-          env: production    
+          approval_type: "production"   
+          
       - name: Checkout Repository
         uses: actions/checkout@v2
 
