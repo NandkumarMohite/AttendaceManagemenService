@@ -83,7 +83,7 @@ jobs:
 
 
   deploy-to-production:
-    needs: deploy-to-qa
+    needs: deploy-to-staging
     runs-on: aws-ec2 # Use appropriate OS
     environment: production
     if: github.event_name == 'workflow_dispatch'
