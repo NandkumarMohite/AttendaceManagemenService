@@ -33,8 +33,7 @@ jobs:
 
   deploy-to-qa:
     needs: build
-    runs-on: Ec-2Student # Use appropriate OS
-    environment: qa
+    runs-on: aws-ec2 # Use appropriate OS
 
     steps:
       - name: Checkout Repository
